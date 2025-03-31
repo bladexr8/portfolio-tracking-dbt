@@ -27,7 +27,7 @@ hashed as (
         concat_ws('|', ACCOUNT_CODE, SECURITY_CODE) AS POSITION_HKEY
         , concat_ws('|', ACCOUNT_CODE, SECURITY_CODE, SECURITY_NAME,
                     EXCHANGE_CODE, REPORT_DATE, QUANTITY, COST_BASE,
-                    POSITION_VALUE, CURRENCY_CODE) AS POSITION_DIFF
+                    POSITION_VALUE, CURRENCY_CODE) AS POSITION_HDIFF
         , *
         , '{{ run_started_at }}' AS LOAD_TS_UTC
     FROM src_data
