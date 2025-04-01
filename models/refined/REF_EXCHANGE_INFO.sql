@@ -1,8 +1,8 @@
 WITH
 current_from_snapshot as (
-    SELECT * EXCLUDE (DBT_SCD_ID, DBT_UPDATED_AT,
-                        DBT_VALID_FROM, DBT_VALID_TO)
-    FROM {{ ref('SNSH_EXCHANGE_INFO') }}
-    WHERE DBT_VALID_TO IS NULL
+    {{ current_from_snapshot(
+        snsh_ref = ref('SNSH_EXCHANGE_INFO')
+        ) }}
 )
+
 SELECT * FROM current_from_snapshot

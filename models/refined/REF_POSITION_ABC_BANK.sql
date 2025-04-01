@@ -1,9 +1,9 @@
 -- source current rows from snapshot
 WITH
 current_from_snapshot as (
-    SELECT *
-    FROM {{ ref('SNSH_ABC_BANK_POSITION') }}
-    WHERE DBT_VALID_TO IS NULL
+    {{ current_from_snapshot(
+        snsh_ref = ref('SNSH_ABC_BANK_POSITION')
+        ) }}
 )
 
 SELECT
