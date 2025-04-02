@@ -25,10 +25,10 @@ src_data as (
 -- add support for saving history
 hashed as (
     SELECT
-        concat_ws('|', ACCOUNT_CODE, SECURITY_CODE) AS POSITION_HKEY
-        , concat_ws('|', ACCOUNT_CODE, SECURITY_CODE, SECURITY_NAME,
-                    EXCHANGE_CODE, REPORT_DATE, QUANTITY, COST_BASE,
-                    POSITION_VALUE, CURRENCY_CODE) AS POSITION_HDIFF
+        {{ dbt_utils.generate_surrogate_key(['ACCOUNT_CODE', 'SECURITY_CODE']) }} AS POSITION_HKEY
+        , {{ dbt_utils.generate_surrogate_key(['ACCOUNT_CODE', 'SECURITY_CODE', 'SECURITY_NAME',
+                    'EXCHANGE_CODE', 'REPORT_DATE', 'QUANTITY', 'COST_BASE',
+                    'POSITION_VALUE', 'CURRENCY_CODE']) }} AS POSITION_HDIFF
         , *
         , '{{ run_started_at }}' AS LOAD_TS_UTC
     FROM src_data

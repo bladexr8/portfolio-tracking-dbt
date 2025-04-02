@@ -50,14 +50,14 @@ with_default_record as (
 
 hashed as (
     SELECT
-        concat_ws('|', EXCHANGE_CODE) as EXCHANGE_HKEY,
-        concat_ws('|', EXCHANGE_CODE,
-                       EXCHANGE_NAME, EXCHANGE_COUNTRY,
-                       EXCHANGE_CITY, EXCHANGE_TIME_ZONE,
-                       EXCHANGE_DELTA, EXCHANGE_DST_PERIOD,
-                       EXCHANGE_OPEN, EXCHANGE_CLOSE,
-                       EXCHANGE_LUNCH, EXCHANGE_OPEN_UTC,
-                       EXCHANGE_CLOSE_UTC, EXCHANGE_LUNCH_UTC) as EXCHANGE_HDIFF,
+        {{ dbt_utils.generate_surrogate_key(['EXCHANGE_CODE']) }} as EXCHANGE_HKEY,
+        {{ dbt_utils.generate_surrogate_key(['EXCHANGE_CODE',
+                       'EXCHANGE_NAME', 'EXCHANGE_COUNTRY',
+                       'EXCHANGE_CITY', 'EXCHANGE_TIME_ZONE',
+                       'EXCHANGE_DELTA', 'EXCHANGE_DST_PERIOD',
+                       'EXCHANGE_OPEN', 'EXCHANGE_CLOSE',
+                       'EXCHANGE_LUNCH', 'EXCHANGE_OPEN_UTC',
+                       'EXCHANGE_CLOSE_UTC', 'EXCHANGE_LUNCH_UTC']) }} as EXCHANGE_HDIFF,
         * EXCLUDE LOAD_TS,
         LOAD_TS as LOAD_TS_UTC
     FROM with_default_record
